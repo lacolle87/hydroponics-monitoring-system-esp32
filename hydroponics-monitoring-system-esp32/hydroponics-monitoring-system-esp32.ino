@@ -4,9 +4,6 @@
 #include <DallasTemperature.h>
 #include <WiFi.h>
 #include <PubSubClient.h>
-// #include <esp32-hal.h>
-// #include <freertos/FreeRTOS.h>
-// #include <freertos/task.h>
 
 #define ONE_WIRE_BUS 26
 #define TdsSensorPin 39
@@ -64,8 +61,6 @@ void setup() {
   digitalWrite(ph_pin, LOW);
   digitalWrite(mqtt_pin, LOW);
   digitalWrite(led_pin, HIGH);
-  // Serial.print("setup() function running on core: ");
-  // Serial.println(xPortGetCoreID());
 
   xTaskCreatePinnedToCore(
     mqttWifiTask,         // Task function
@@ -123,14 +118,8 @@ void loop() {
   Serial.print("pH: ");
   Serial.println(pHcomp);
 
-  // size_t freeHeap = ESP.getFreeHeap();
-  // Serial.print("Free heap memory: ");
-  // Serial.print(freeHeap);
-  // Serial.println(" bytes");
 
   delay(1000);
-  // Serial.print("loop() function running on core: ");
-  // Serial.println(xPortGetCoreID());
 }
 
 void readTempSolution(float& tempS) {
@@ -240,14 +229,6 @@ void mqttWifiTask(void* parameter) {
     delay(100);
     digitalWrite(mqtt_pin, LOW);
 
-    // UBaseType_t stackUsage = uxTaskGetStackHighWaterMark(mqttWifiTaskHandle);
-
-    // Serial.print("Task stack high-water mark: ");
-    // Serial.print(stackUsage);
-    // Serial.println(" bytes");
-
-    // Serial.print("mqttWifiTask() function running on core: ");
-    // Serial.println(xPortGetCoreID());
     delay(4900);
     }    
   }

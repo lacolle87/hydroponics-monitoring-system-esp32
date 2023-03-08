@@ -148,9 +148,9 @@ void readPH(float& pHcomp) {
   }
   float voltage = 3.3 / adc_resolution * total_readings / num_samples;
   float pHvalue = ph(voltage);
-  pHcomp = pHvalue - 2.3 + 0.03 * (tempS - 25.0);  // - 2.3 stable with tds
+  pHcomp = pHvalue + 0.03 * (tempS - 25.0);
 
-  if (pHcomp < 5.5 || pHcomp > 6.5) {
+  if (pHcomp < 5.5 || pHcomp > 6.5) { // LED pH alarm
     digitalWrite(ph_pin, HIGH);
   } else {
     digitalWrite(ph_pin, LOW);

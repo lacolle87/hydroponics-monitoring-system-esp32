@@ -27,7 +27,6 @@ const char* mqttUser = "#####";
 const char* mqttPassword = "#####";
 const char* mqttTopic = "#####";
 const char* device = "#####";
-const int mqttPort = 1883;
 
 const int led_pin = 14;
 const int mqtt_pin = 27;
@@ -65,7 +64,7 @@ void setup() {
   xTaskCreatePinnedToCore(
     mqttWifiTask,         // Task function
     "mqttWifiTask",       // Task name
-    10000,                // Stack size
+    20000,                // Stack size
     NULL,                 // Task parameters
     1,                    // Task priority
     &mqttWifiTaskHandle,  // Task handle
@@ -119,7 +118,7 @@ void loop() {
   Serial.println(pHcomp);
 
 
-  delay(1000);
+  delay(2000);
 }
 
 void readTempSolution(float& tempS) {
@@ -138,7 +137,7 @@ void readGY21(float& temp, float& hum) {
 }
 
 void readPH(float& pHcomp) {
-  int num_samples = 60;  // number of samples to take
+  int num_samples = 30;  // number of samples to take
   int readings[num_samples];
   int total_readings = 0;
   for (int i = 0; i < num_samples; i++) {
@@ -229,7 +228,7 @@ void mqttWifiTask(void* parameter) {
     delay(100);
     digitalWrite(mqtt_pin, LOW);
 
-    delay(4900);
+    delay(5000);
     }    
   }
 }
@@ -250,7 +249,7 @@ void initWifi() {
 
 void initMqtt() {
   mqttClient.setServer(mqttServer, mqttPort);
-  mqttClient.setCallback(mqttCallback);
+  // mqttClient.setCallback(mqttCallback);
   mqttClient.setKeepAlive(30);  // set keep alive time
   while (!mqttClient.connected()) {
     Serial.println("Connecting to MQTT broker...");
@@ -265,6 +264,6 @@ void initMqtt() {
   }
 }
 
-void mqttCallback(char* topic, byte* payload, unsigned int length) {
-  // handle MQTT callback if needed
-}
+// void mqttCallback(char* topic, byte* payload, unsigned int length) {
+//   // handle MQTT callback if needed
+// }
